@@ -1,4 +1,4 @@
-import { useEffect, useRef, forwardRef, useImperativeHandle } from "react";
+import { useEffect, useRef } from "react";
 
 interface EditorProps {
   content: string;
@@ -7,17 +7,8 @@ interface EditorProps {
   fontFamily: string;
 }
 
-export interface EditorRef {
-  textareaRef: React.RefObject<HTMLTextAreaElement>;
-}
-
-export const Editor = forwardRef<EditorRef, EditorProps>(
-  ({ content, onChange, zoom, fontFamily }, ref) => {
-    const textareaRef = useRef<HTMLTextAreaElement>(null);
-
-    useImperativeHandle(ref, () => ({
-      textareaRef,
-    }));
+export const Editor = ({ content, onChange, zoom, fontFamily }: EditorProps) => {
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
     if (textareaRef.current) {
@@ -26,25 +17,22 @@ export const Editor = forwardRef<EditorRef, EditorProps>(
     }
   }, [content]);
 
-    return (
-      <div
-        className="editor-content max-w-5xl mx-auto px-4 md:px-8 lg:px-16"
-        style={{
-          transform: `scale(${zoom})`,
-          transformOrigin: "top center",
-        }}
-      >
-        <textarea
-          ref={textareaRef}
-          value={content}
-          onChange={(e) => onChange(e.target.value)}
-          className={`w-full min-h-screen bg-transparent border-none outline-none resize-none text-foreground placeholder:text-muted-foreground text-base md:text-lg leading-relaxed py-8 md:py-12 ${fontFamily}`}
-          placeholder="Comece a escrever suas ideias..."
-          spellCheck={false}
-        />
-      </div>
-    );
-  }
-);
-
-Editor.displayName = "Editor";
+  return (
+    <div
+      className="editor-content"
+      style={{
+        transform: `scale(${zoom})`,
+        transformOrigin: "top center",
+      }}
+    >
+      <textarea
+        ref={textareaRef}
+        value={content}
+        onChange={(e) => onChange(e.target.value)}
+        className={`w-full min-h-screen bg-transparent border-none outline-none resize-none text-foreground placeholder:text-muted-foreground text-lg leading-relaxed ${fontFamily}`}
+        placeholder="Comece a escrever suas ideias..."
+        spellCheck={false}
+      />
+    </div>
+  );
+};
