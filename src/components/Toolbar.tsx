@@ -14,6 +14,11 @@ import {
   Moon,
   Sun,
   Settings,
+  Lightbulb,
+  CheckSquare,
+  Folder,
+  BookOpen,
+  ChevronDown,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -30,6 +35,8 @@ interface ToolbarProps {
   isDark: boolean;
   onFontChange: (font: string) => void;
   currentFont: string;
+  activeTab: string;
+  onTabChange: (tab: string) => void;
 }
 
 export const Toolbar = ({
@@ -39,6 +46,8 @@ export const Toolbar = ({
   isDark,
   onFontChange,
   currentFont,
+  activeTab,
+  onTabChange,
 }: ToolbarProps) => {
   const fontOptions = [
     { label: "Sans Serif", value: "font-sans-default" },
@@ -46,10 +55,46 @@ export const Toolbar = ({
     { label: "Serif", value: "font-serif" },
   ];
 
+  const tabs = [
+    { id: "ideas", label: "Ideias Rápidas", icon: Lightbulb },
+    { id: "tasks", label: "Tarefas do Dia", icon: CheckSquare },
+    { id: "projects", label: "Projetos", icon: Folder },
+    { id: "references", label: "Referências", icon: BookOpen },
+  ];
+
+  const currentTab = tabs.find((tab) => tab.id === activeTab);
+
   return (
     <div className="toolbar">
       <div className="container mx-auto px-4 py-3 flex items-center justify-between">
         <div className="flex items-center gap-1">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" size="sm" className="h-9 gap-2">
+                {currentTab && <currentTab.icon className="h-4 w-4" />}
+                <span className="text-sm">{currentTab?.label}</span>
+                <ChevronDown className="h-3 w-3 opacity-50" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="start">
+              {tabs.map((tab) => {
+                const Icon = tab.icon;
+                return (
+                  <DropdownMenuItem
+                    key={tab.id}
+                    onClick={() => onTabChange(tab.id)}
+                    className={activeTab === tab.id ? "bg-accent" : ""}
+                  >
+                    <Icon className="h-4 w-4 mr-2" />
+                    {tab.label}
+                  </DropdownMenuItem>
+                );
+              })}
+            </DropdownMenuContent>
+          </DropdownMenu>
+
+          <div className="w-px h-6 bg-border mx-1" />
+
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="sm" className="h-9">

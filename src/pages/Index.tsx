@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { Editor } from "@/components/Editor";
 import { Toolbar } from "@/components/Toolbar";
-import { TabBar } from "@/components/TabBar";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { toast } from "sonner";
 
@@ -96,9 +95,10 @@ const Index = () => {
         isDark={isDark}
         onFontChange={handleFontChange}
         currentFont={fontFamily}
+        activeTab={activeTab}
+        onTabChange={handleTabChange}
       />
-      <TabBar activeTab={activeTab} onTabChange={handleTabChange} />
-      <div className="pt-32">
+      <div className="pt-16">
         <Editor
           content={notes[activeTab as keyof NotesState]}
           onChange={handleContentChange}
