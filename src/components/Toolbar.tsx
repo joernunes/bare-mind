@@ -37,6 +37,13 @@ interface ToolbarProps {
   currentFont: string;
   activeTab: string;
   onTabChange: (tab: string) => void;
+  onFormatBold: () => void;
+  onFormatItalic: () => void;
+  onFormatHeading: (level: number) => void;
+  onFormatList: () => void;
+  onFormatOrderedList: () => void;
+  onFormatQuote: () => void;
+  onFormatCode: () => void;
 }
 
 export const Toolbar = ({
@@ -48,6 +55,13 @@ export const Toolbar = ({
   currentFont,
   activeTab,
   onTabChange,
+  onFormatBold,
+  onFormatItalic,
+  onFormatHeading,
+  onFormatList,
+  onFormatOrderedList,
+  onFormatQuote,
+  onFormatCode,
 }: ToolbarProps) => {
   const fontOptions = [
     { label: "Sans Serif", value: "font-sans-default" },
@@ -66,8 +80,8 @@ export const Toolbar = ({
 
   return (
     <div className="toolbar">
-      <div className="container mx-auto px-4 py-3 flex items-center justify-between">
-        <div className="flex items-center gap-1">
+      <div className="container mx-auto px-2 md:px-4 py-2 md:py-3 flex items-center justify-between gap-2">
+        <div className="flex items-center gap-1 flex-wrap">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="sm" className="h-9 gap-2">
@@ -116,56 +130,56 @@ export const Toolbar = ({
 
           <div className="w-px h-6 bg-border mx-1" />
 
-          <Button variant="ghost" size="sm" className="h-9">
+          <Button variant="ghost" size="sm" className="h-9" onClick={onFormatBold} title="Negrito (Markdown: **texto**)">
             <Bold className="h-4 w-4" />
           </Button>
-          <Button variant="ghost" size="sm" className="h-9">
+          <Button variant="ghost" size="sm" className="h-9" onClick={onFormatItalic} title="Itálico (Markdown: *texto*)">
             <Italic className="h-4 w-4" />
           </Button>
 
-          <div className="w-px h-6 bg-border mx-1" />
+          <div className="w-px h-6 bg-border mx-1 hidden md:block" />
 
-          <Button variant="ghost" size="sm" className="h-9">
+          <Button variant="ghost" size="sm" className="h-9 hidden md:flex" onClick={() => onFormatHeading(1)} title="Título 1 (Markdown: # texto)">
             <Heading1 className="h-4 w-4" />
           </Button>
-          <Button variant="ghost" size="sm" className="h-9">
+          <Button variant="ghost" size="sm" className="h-9 hidden md:flex" onClick={() => onFormatHeading(2)} title="Título 2 (Markdown: ## texto)">
             <Heading2 className="h-4 w-4" />
           </Button>
-          <Button variant="ghost" size="sm" className="h-9">
+          <Button variant="ghost" size="sm" className="h-9 hidden md:flex" onClick={() => onFormatHeading(3)} title="Título 3 (Markdown: ### texto)">
             <Heading3 className="h-4 w-4" />
           </Button>
 
-          <div className="w-px h-6 bg-border mx-1" />
+          <div className="w-px h-6 bg-border mx-1 hidden md:block" />
 
-          <Button variant="ghost" size="sm" className="h-9">
+          <Button variant="ghost" size="sm" className="h-9" onClick={onFormatList} title="Lista (Markdown: - texto)">
             <List className="h-4 w-4" />
           </Button>
-          <Button variant="ghost" size="sm" className="h-9">
+          <Button variant="ghost" size="sm" className="h-9 hidden sm:flex" onClick={onFormatOrderedList} title="Lista Numerada (Markdown: 1. texto)">
             <ListOrdered className="h-4 w-4" />
           </Button>
-          <Button variant="ghost" size="sm" className="h-9">
+          <Button variant="ghost" size="sm" className="h-9 hidden sm:flex" onClick={onFormatQuote} title="Citação (Markdown: > texto)">
             <Quote className="h-4 w-4" />
           </Button>
-          <Button variant="ghost" size="sm" className="h-9">
+          <Button variant="ghost" size="sm" className="h-9" onClick={onFormatCode} title="Código (Markdown: `texto`)">
             <Code className="h-4 w-4" />
           </Button>
         </div>
 
         <div className="flex items-center gap-1">
-          <Button variant="ghost" size="sm" onClick={onZoomOut} className="h-9">
+          <Button variant="ghost" size="sm" onClick={onZoomOut} className="h-8 md:h-9" title="Diminuir zoom">
             <ZoomOut className="h-4 w-4" />
           </Button>
-          <Button variant="ghost" size="sm" onClick={onZoomIn} className="h-9">
+          <Button variant="ghost" size="sm" onClick={onZoomIn} className="h-8 md:h-9" title="Aumentar zoom">
             <ZoomIn className="h-4 w-4" />
           </Button>
 
           <div className="w-px h-6 bg-border mx-1" />
 
-          <Button variant="ghost" size="sm" onClick={onToggleTheme} className="h-9">
+          <Button variant="ghost" size="sm" onClick={onToggleTheme} className="h-8 md:h-9" title={isDark ? "Modo claro" : "Modo escuro"}>
             {isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
           </Button>
 
-          <Button variant="ghost" size="sm" className="h-9">
+          <Button variant="ghost" size="sm" className="h-8 md:h-9 hidden md:flex" title="Configurações">
             <Settings className="h-4 w-4" />
           </Button>
         </div>

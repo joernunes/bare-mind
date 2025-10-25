@@ -1,7 +1,8 @@
-import { useState, useEffect } from "react";
-import { Editor } from "@/components/Editor";
+import { useState, useEffect, useRef } from "react";
+import { Editor, EditorRef } from "@/components/Editor";
 import { Toolbar } from "@/components/Toolbar";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
+import { useMarkdownEditor } from "@/hooks/useMarkdownEditor";
 import { toast } from "sonner";
 
 interface NotesState {
@@ -12,6 +13,7 @@ interface NotesState {
 }
 
 const Index = () => {
+  const editorRef = useRef<EditorRef>(null);
   const [activeTab, setActiveTab] = useLocalStorage<string>("activeTab", "ideas");
   const [notes, setNotes] = useLocalStorage<NotesState>("notes", {
     ideas: "",
@@ -22,6 +24,9 @@ const Index = () => {
   const [zoom, setZoom] = useLocalStorage<number>("zoom", 1);
   const [isDark, setIsDark] = useLocalStorage<boolean>("theme", false);
   const [fontFamily, setFontFamily] = useLocalStorage<string>("fontFamily", "font-sans-default");
+
+  const textareaRef = editorRef.current?.textareaRef || { current: null };
+  const markdown = useMarkdownEditor(textareaRef);
 
   useEffect(() => {
     if (isDark) {
@@ -66,6 +71,34 @@ const Index = () => {
     setActiveTab(tab);
   };
 
+  const handleFormatBold = () => {
+    markdown.formatBold(handleContentChange);
+  };
+
+  const handleFormatItalic = () => {
+    markdown.formatItalic(handleContentChange);
+  };
+
+  const handleFormatHeading = (level: number) => {
+    markdown.formatHeading(level, handleContentChange);
+  };
+
+  const handleFormatList = () => {
+    markdown.formatList(handleContentChange);
+  };
+
+  const handleFormatOrderedList = () => {
+    markdown.formatOrderedList(handleContentChange);
+  };
+
+  const handleFormatQuote = () => {
+    markdown.formatQuote(handleContentChange);
+  };
+
+  const handleFormatCode = () => {
+    markdown.formatCode(handleContentChange);
+  };
+
   useEffect(() => {
     const handleKeyboard = (e: KeyboardEvent) => {
       if (e.metaKey || e.ctrlKey) {
@@ -97,9 +130,17 @@ const Index = () => {
         currentFont={fontFamily}
         activeTab={activeTab}
         onTabChange={handleTabChange}
+        onFormatBold={handleFormatBold}
+        onFormatItalic={handleFormatItalic}
+        onFormatHeading={handleFormatHeading}
+        onFormatList={handleFormatList}
+        onFormatOrderedList={handleFormatOrderedList}
+        onFormatQuote={handleFormatQuote}
+        onFormatCode={handleFormatCode}
       />
-      <div className="pt-16">
+      <div className="pt-14 md:pt-16">
         <Editor
+          ref={editorRef}
           content={notes[activeTab as keyof NotesState]}
           onChange={handleContentChange}
           zoom={zoom}
