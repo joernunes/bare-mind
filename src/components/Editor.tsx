@@ -1,38 +1,60 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
+import { useEditor, EditorContent, Editor as TiptapEditor } from "@tiptap/react";
+import StarterKit from "@tiptap/starter-kit";
+import Placeholder from "@tiptap/extension-placeholder";
 
 interface EditorProps {
   content: string;
   onChange: (content: string) => void;
   zoom: number;
   fontFamily: string;
+  onEditorReady?: (editor: TiptapEditor) => void;
 }
 
-export const Editor = ({ content, onChange, zoom, fontFamily }: EditorProps) => {
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
+export const Editor = ({ content, onChange, zoom, fontFamily, onEditorReady }: EditorProps) => {
+  const editor = useEditor({
+    extensions: [
+      StarterKit.configure({
+        heading: {
+          levels: [1, 2, 3],
+        },
+      }),
+      Placeholder.configure({
+        placeholder: "Comece a escrever suas ideias...",
+      }),
+    ],
+    content,
+    editorProps: {
+      attributes: {
+        class: `prose prose-lg dark:prose-invert max-w-none focus:outline-none ${fontFamily} min-h-screen`,
+      },
+    },
+    onUpdate: ({ editor }) => {
+      onChange(editor.getHTML());
+    },
+  });
 
   useEffect(() => {
-    if (textareaRef.current) {
-      textareaRef.current.style.height = "auto";
-      textareaRef.current.style.height = textareaRef.current.scrollHeight + "px";
+    if (editor && content !== editor.getHTML()) {
+      editor.commands.setContent(content);
     }
-  }, [content]);
+  }, [content, editor]);
+
+  useEffect(() => {
+    if (editor && onEditorReady) {
+      onEditorReady(editor);
+    }
+  }, [editor, onEditorReady]);
 
   return (
     <div
-      className="editor-content"
+      className="editor-content max-w-5xl mx-auto px-4 md:px-8 lg:px-16 py-8 md:py-12"
       style={{
         transform: `scale(${zoom})`,
         transformOrigin: "top center",
       }}
     >
-      <textarea
-        ref={textareaRef}
-        value={content}
-        onChange={(e) => onChange(e.target.value)}
-        className={`w-full min-h-screen bg-transparent border-none outline-none resize-none text-foreground placeholder:text-muted-foreground text-lg leading-relaxed ${fontFamily}`}
-        placeholder="Comece a escrever suas ideias..."
-        spellCheck={false}
-      />
+      <EditorContent editor={editor} />
     </div>
   );
 };

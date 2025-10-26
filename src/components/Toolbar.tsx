@@ -37,6 +37,13 @@ interface ToolbarProps {
   currentFont: string;
   activeTab: string;
   onTabChange: (tab: string) => void;
+  onFormatBold?: () => void;
+  onFormatItalic?: () => void;
+  onFormatHeading?: (level: 1 | 2 | 3) => void;
+  onFormatList?: () => void;
+  onFormatOrderedList?: () => void;
+  onFormatQuote?: () => void;
+  onFormatCode?: () => void;
 }
 
 export const Toolbar = ({
@@ -48,6 +55,13 @@ export const Toolbar = ({
   currentFont,
   activeTab,
   onTabChange,
+  onFormatBold,
+  onFormatItalic,
+  onFormatHeading,
+  onFormatList,
+  onFormatOrderedList,
+  onFormatQuote,
+  onFormatCode,
 }: ToolbarProps) => {
   const fontOptions = [
     { label: "Sans Serif", value: "font-sans-default" },
@@ -116,37 +130,37 @@ export const Toolbar = ({
 
           <div className="w-px h-6 bg-border mx-1" />
 
-          <Button variant="ghost" size="sm" className="h-9">
+          <Button variant="ghost" size="sm" className="h-9" onClick={onFormatBold} title="Negrito">
             <Bold className="h-4 w-4" />
           </Button>
-          <Button variant="ghost" size="sm" className="h-9">
+          <Button variant="ghost" size="sm" className="h-9" onClick={onFormatItalic} title="Itálico">
             <Italic className="h-4 w-4" />
           </Button>
 
           <div className="w-px h-6 bg-border mx-1" />
 
-          <Button variant="ghost" size="sm" className="h-9">
+          <Button variant="ghost" size="sm" className="h-9" onClick={() => onFormatHeading?.(1)} title="Título 1">
             <Heading1 className="h-4 w-4" />
           </Button>
-          <Button variant="ghost" size="sm" className="h-9">
+          <Button variant="ghost" size="sm" className="h-9" onClick={() => onFormatHeading?.(2)} title="Título 2">
             <Heading2 className="h-4 w-4" />
           </Button>
-          <Button variant="ghost" size="sm" className="h-9">
+          <Button variant="ghost" size="sm" className="h-9" onClick={() => onFormatHeading?.(3)} title="Título 3">
             <Heading3 className="h-4 w-4" />
           </Button>
 
           <div className="w-px h-6 bg-border mx-1" />
 
-          <Button variant="ghost" size="sm" className="h-9">
+          <Button variant="ghost" size="sm" className="h-9" onClick={onFormatList} title="Lista">
             <List className="h-4 w-4" />
           </Button>
-          <Button variant="ghost" size="sm" className="h-9">
+          <Button variant="ghost" size="sm" className="h-9" onClick={onFormatOrderedList} title="Lista Numerada">
             <ListOrdered className="h-4 w-4" />
           </Button>
-          <Button variant="ghost" size="sm" className="h-9">
+          <Button variant="ghost" size="sm" className="h-9" onClick={onFormatQuote} title="Citação">
             <Quote className="h-4 w-4" />
           </Button>
-          <Button variant="ghost" size="sm" className="h-9">
+          <Button variant="ghost" size="sm" className="h-9" onClick={onFormatCode} title="Código">
             <Code className="h-4 w-4" />
           </Button>
         </div>

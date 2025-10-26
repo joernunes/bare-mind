@@ -3,6 +3,7 @@ import { Editor } from "@/components/Editor";
 import { Toolbar } from "@/components/Toolbar";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { toast } from "sonner";
+import { Editor as TiptapEditor } from "@tiptap/react";
 
 interface NotesState {
   ideas: string;
@@ -22,6 +23,7 @@ const Index = () => {
   const [zoom, setZoom] = useLocalStorage<number>("zoom", 1);
   const [isDark, setIsDark] = useLocalStorage<boolean>("theme", false);
   const [fontFamily, setFontFamily] = useLocalStorage<string>("fontFamily", "font-sans-default");
+  const [editor, setEditor] = useState<TiptapEditor | null>(null);
 
   useEffect(() => {
     if (isDark) {
@@ -66,6 +68,34 @@ const Index = () => {
     setActiveTab(tab);
   };
 
+  const handleFormatBold = () => {
+    editor?.chain().focus().toggleBold().run();
+  };
+
+  const handleFormatItalic = () => {
+    editor?.chain().focus().toggleItalic().run();
+  };
+
+  const handleFormatHeading = (level: 1 | 2 | 3) => {
+    editor?.chain().focus().toggleHeading({ level }).run();
+  };
+
+  const handleFormatList = () => {
+    editor?.chain().focus().toggleBulletList().run();
+  };
+
+  const handleFormatOrderedList = () => {
+    editor?.chain().focus().toggleOrderedList().run();
+  };
+
+  const handleFormatQuote = () => {
+    editor?.chain().focus().toggleBlockquote().run();
+  };
+
+  const handleFormatCode = () => {
+    editor?.chain().focus().toggleCodeBlock().run();
+  };
+
   useEffect(() => {
     const handleKeyboard = (e: KeyboardEvent) => {
       if (e.metaKey || e.ctrlKey) {
@@ -97,6 +127,13 @@ const Index = () => {
         currentFont={fontFamily}
         activeTab={activeTab}
         onTabChange={handleTabChange}
+        onFormatBold={handleFormatBold}
+        onFormatItalic={handleFormatItalic}
+        onFormatHeading={handleFormatHeading}
+        onFormatList={handleFormatList}
+        onFormatOrderedList={handleFormatOrderedList}
+        onFormatQuote={handleFormatQuote}
+        onFormatCode={handleFormatCode}
       />
       <div className="pt-16">
         <Editor
@@ -104,6 +141,7 @@ const Index = () => {
           onChange={handleContentChange}
           zoom={zoom}
           fontFamily={fontFamily}
+          onEditorReady={setEditor}
         />
       </div>
     </div>
