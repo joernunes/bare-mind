@@ -2,6 +2,15 @@ import {
   Type,
   Bold,
   Italic,
+  Underline as UnderlineIcon,
+  Strikethrough,
+  Link as LinkIcon,
+  Highlighter,
+  AlignLeft,
+  AlignCenter,
+  AlignRight,
+  AlignJustify,
+  Minus,
   List,
   ListOrdered,
   Code,
@@ -39,11 +48,17 @@ interface ToolbarProps {
   onTabChange: (tab: string) => void;
   onFormatBold?: () => void;
   onFormatItalic?: () => void;
+  onFormatUnderline?: () => void;
+  onFormatStrike?: () => void;
+  onFormatHighlight?: () => void;
+  onFormatLink?: () => void;
   onFormatHeading?: (level: 1 | 2 | 3) => void;
   onFormatList?: () => void;
   onFormatOrderedList?: () => void;
   onFormatQuote?: () => void;
   onFormatCode?: () => void;
+  onFormatAlign?: (align: 'left' | 'center' | 'right' | 'justify') => void;
+  onFormatHorizontalRule?: () => void;
 }
 
 export const Toolbar = ({
@@ -57,11 +72,17 @@ export const Toolbar = ({
   onTabChange,
   onFormatBold,
   onFormatItalic,
+  onFormatUnderline,
+  onFormatStrike,
+  onFormatHighlight,
+  onFormatLink,
   onFormatHeading,
   onFormatList,
   onFormatOrderedList,
   onFormatQuote,
   onFormatCode,
+  onFormatAlign,
+  onFormatHorizontalRule,
 }: ToolbarProps) => {
   const fontOptions = [
     { label: "Sans Serif", value: "font-sans-default" },
@@ -136,6 +157,21 @@ export const Toolbar = ({
           <Button variant="ghost" size="sm" className="h-9" onClick={onFormatItalic} title="Itálico">
             <Italic className="h-4 w-4" />
           </Button>
+          <Button variant="ghost" size="sm" className="h-9" onClick={onFormatUnderline} title="Sublinhado">
+            <UnderlineIcon className="h-4 w-4" />
+          </Button>
+          <Button variant="ghost" size="sm" className="h-9" onClick={onFormatStrike} title="Tachado">
+            <Strikethrough className="h-4 w-4" />
+          </Button>
+
+          <div className="w-px h-6 bg-border mx-1" />
+
+          <Button variant="ghost" size="sm" className="h-9" onClick={onFormatHighlight} title="Destacar">
+            <Highlighter className="h-4 w-4" />
+          </Button>
+          <Button variant="ghost" size="sm" className="h-9" onClick={onFormatLink} title="Link">
+            <LinkIcon className="h-4 w-4" />
+          </Button>
 
           <div className="w-px h-6 bg-border mx-1" />
 
@@ -162,6 +198,27 @@ export const Toolbar = ({
           </Button>
           <Button variant="ghost" size="sm" className="h-9" onClick={onFormatCode} title="Código">
             <Code className="h-4 w-4" />
+          </Button>
+
+          <div className="w-px h-6 bg-border mx-1" />
+
+          <Button variant="ghost" size="sm" className="h-9" onClick={() => onFormatAlign?.('left')} title="Alinhar à esquerda">
+            <AlignLeft className="h-4 w-4" />
+          </Button>
+          <Button variant="ghost" size="sm" className="h-9" onClick={() => onFormatAlign?.('center')} title="Centralizar">
+            <AlignCenter className="h-4 w-4" />
+          </Button>
+          <Button variant="ghost" size="sm" className="h-9" onClick={() => onFormatAlign?.('right')} title="Alinhar à direita">
+            <AlignRight className="h-4 w-4" />
+          </Button>
+          <Button variant="ghost" size="sm" className="h-9" onClick={() => onFormatAlign?.('justify')} title="Justificar">
+            <AlignJustify className="h-4 w-4" />
+          </Button>
+
+          <div className="w-px h-6 bg-border mx-1" />
+
+          <Button variant="ghost" size="sm" className="h-9" onClick={onFormatHorizontalRule} title="Linha divisória">
+            <Minus className="h-4 w-4" />
           </Button>
         </div>
 

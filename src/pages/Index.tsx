@@ -96,6 +96,33 @@ const Index = () => {
     editor?.chain().focus().toggleCodeBlock().run();
   };
 
+  const handleFormatUnderline = () => {
+    editor?.chain().focus().toggleUnderline().run();
+  };
+
+  const handleFormatStrike = () => {
+    editor?.chain().focus().toggleStrike().run();
+  };
+
+  const handleFormatHighlight = () => {
+    editor?.chain().focus().toggleHighlight().run();
+  };
+
+  const handleFormatLink = () => {
+    const url = window.prompt('URL do link:');
+    if (url) {
+      editor?.chain().focus().setLink({ href: url }).run();
+    }
+  };
+
+  const handleFormatAlign = (align: 'left' | 'center' | 'right' | 'justify') => {
+    editor?.chain().focus().setTextAlign(align).run();
+  };
+
+  const handleFormatHorizontalRule = () => {
+    editor?.chain().focus().setHorizontalRule().run();
+  };
+
   useEffect(() => {
     const handleKeyboard = (e: KeyboardEvent) => {
       if (e.metaKey || e.ctrlKey) {
@@ -129,11 +156,17 @@ const Index = () => {
         onTabChange={handleTabChange}
         onFormatBold={handleFormatBold}
         onFormatItalic={handleFormatItalic}
+        onFormatUnderline={handleFormatUnderline}
+        onFormatStrike={handleFormatStrike}
+        onFormatHighlight={handleFormatHighlight}
+        onFormatLink={handleFormatLink}
         onFormatHeading={handleFormatHeading}
         onFormatList={handleFormatList}
         onFormatOrderedList={handleFormatOrderedList}
         onFormatQuote={handleFormatQuote}
         onFormatCode={handleFormatCode}
+        onFormatAlign={handleFormatAlign}
+        onFormatHorizontalRule={handleFormatHorizontalRule}
       />
       <div className="pt-16">
         <Editor

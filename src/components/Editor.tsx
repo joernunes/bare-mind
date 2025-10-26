@@ -2,6 +2,10 @@ import { useEffect } from "react";
 import { useEditor, EditorContent, Editor as TiptapEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Placeholder from "@tiptap/extension-placeholder";
+import Underline from "@tiptap/extension-underline";
+import Link from "@tiptap/extension-link";
+import Highlight from "@tiptap/extension-highlight";
+import TextAlign from "@tiptap/extension-text-align";
 
 interface EditorProps {
   content: string;
@@ -21,6 +25,19 @@ export const Editor = ({ content, onChange, zoom, fontFamily, onEditorReady }: E
       }),
       Placeholder.configure({
         placeholder: "Comece a escrever suas ideias...",
+      }),
+      Underline,
+      Link.configure({
+        openOnClick: false,
+        HTMLAttributes: {
+          class: 'text-primary underline cursor-pointer',
+        },
+      }),
+      Highlight.configure({
+        multicolor: false,
+      }),
+      TextAlign.configure({
+        types: ['heading', 'paragraph'],
       }),
     ],
     content,

@@ -194,4 +194,36 @@ All colors MUST be HSL.
   .ProseMirror em {
     @apply italic;
   }
+
+  .ProseMirror u {
+    text-decoration: underline;
+  }
+
+  .ProseMirror s {
+    text-decoration: line-through;
+  }
+
+  .ProseMirror mark {
+    @apply bg-yellow-200 dark:bg-yellow-800 px-1 rounded;
+  }
+
+  .ProseMirror a {
+    @apply text-primary underline cursor-pointer;
+  }
+
+  .ProseMirror hr {
+    @apply border-t-2 border-border my-6;
+  }
+
+  .ProseMirror[style*="text-align: center"] {
+    text-align: center;
+  }
+
+  .ProseMirror[style*="text-align: right"] {
+    text-align: right;
+  }
+
+  .ProseMirror[style*="text-align: justify"] {
+    text-align: justify;
+  }
 }
