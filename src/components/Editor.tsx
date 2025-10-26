@@ -43,7 +43,7 @@ export const Editor = ({ content, onChange, zoom, fontFamily, onEditorReady }: E
     content,
     editorProps: {
       attributes: {
-        class: `prose prose-lg dark:prose-invert max-w-none focus:outline-none ${fontFamily} min-h-screen`,
+        class: `focus:outline-none ${fontFamily} min-h-screen`,
       },
     },
     onUpdate: ({ editor }) => {
