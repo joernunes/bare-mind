@@ -145,6 +145,7 @@ All colors MUST be HSL.
   .ProseMirror {
     @apply text-foreground bg-transparent;
     min-height: 500px;
+    outline: none;
   }
 
   .ProseMirror p.is-editor-empty:first-child::before {
@@ -155,36 +156,63 @@ All colors MUST be HSL.
     height: 0;
   }
 
+  .ProseMirror p {
+    @apply mb-3;
+  }
+
   .ProseMirror h1 {
-    @apply text-4xl font-bold mb-4 mt-6;
+    @apply text-4xl font-bold mb-4 mt-8;
+    line-height: 1.2;
   }
 
   .ProseMirror h2 {
-    @apply text-3xl font-bold mb-3 mt-5;
+    @apply text-3xl font-bold mb-3 mt-6;
+    line-height: 1.3;
   }
 
   .ProseMirror h3 {
-    @apply text-2xl font-bold mb-2 mt-4;
+    @apply text-2xl font-bold mb-3 mt-5;
+    line-height: 1.4;
+  }
+
+  .ProseMirror ul,
+  .ProseMirror ol {
+    @apply mb-4 pl-6;
   }
 
   .ProseMirror ul {
-    @apply list-disc pl-6 mb-4;
+    list-style-type: disc;
   }
 
   .ProseMirror ol {
-    @apply list-decimal pl-6 mb-4;
+    list-style-type: decimal;
+  }
+
+  .ProseMirror li {
+    @apply mb-1;
+  }
+
+  .ProseMirror li p {
+    @apply mb-0;
   }
 
   .ProseMirror blockquote {
-    @apply border-l-4 border-border pl-4 italic my-4 text-muted-foreground;
+    @apply border-l-4 border-primary pl-4 py-2 italic my-4 text-muted-foreground;
+    background: hsl(var(--muted) / 0.3);
   }
 
   .ProseMirror pre {
     @apply bg-muted rounded-lg p-4 mb-4 overflow-x-auto;
+    font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
   }
 
   .ProseMirror code {
-    @apply bg-muted px-1.5 py-0.5 rounded text-sm font-mono;
+    @apply bg-muted px-1.5 py-0.5 rounded text-sm;
+    font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+  }
+
+  .ProseMirror pre code {
+    @apply bg-transparent p-0;
   }
 
   .ProseMirror strong {
@@ -208,22 +236,30 @@ All colors MUST be HSL.
   }
 
   .ProseMirror a {
-    @apply text-primary underline cursor-pointer;
+    @apply text-primary underline cursor-pointer hover:text-primary/80;
   }
 
   .ProseMirror hr {
-    @apply border-t-2 border-border my-6;
+    @apply border-t-2 border-border my-8;
   }
 
-  .ProseMirror[style*="text-align: center"] {
+  .ProseMirror[style*="text-align: center"],
+  .ProseMirror *[style*="text-align: center"] {
     text-align: center;
   }
 
-  .ProseMirror[style*="text-align: right"] {
+  .ProseMirror[style*="text-align: right"],
+  .ProseMirror *[style*="text-align: right"] {
     text-align: right;
   }
 
-  .ProseMirror[style*="text-align: justify"] {
+  .ProseMirror[style*="text-align: justify"],
+  .ProseMirror *[style*="text-align: justify"] {
     text-align: justify;
+  }
+
+  /* Focus state for editor */
+  .ProseMirror:focus {
+    outline: none;
   }
 }
